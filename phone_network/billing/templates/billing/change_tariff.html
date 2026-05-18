@@ -1,0 +1,26 @@
+{% extends 'billing/base.html' %} {% block content %}
+<h2>Сменить тарифный план</h2>
+
+<p>
+  Текущий тариф: <strong>{{ current_tariff.name|default:"Не выбран" }}</strong>
+</p>
+
+{% if success %}
+<div class="alert alert-success">{{ success }}</div>
+{% endif %}
+
+<form method="post">
+  {% csrf_token %}
+  <div class="form-group">
+    <label>Выберите новый тариф:</label>
+    <select name="tariff_id" required>
+      {% for tariff in tariffs %}
+      <option value="{{ tariff.id }}">
+        {{ tariff.name }} - {{ tariff.price_per_minute }} руб/мин
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+  <button type="submit">Подтвердить</button>
+</form>
+{% endblock %}

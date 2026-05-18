@@ -1,0 +1,17 @@
+{% extends 'billing/base.html' %} {% block content %}
+<h2>Личный кабинет</h2>
+<p>Добро пожаловать, <strong>{{ client.name }}</strong>!</p>
+<p>Ваш баланс: <span class="balance">{{ client.balance }} руб</span></p>
+<p>
+  Текущий тариф: <strong>{{ client.tariff.name|default:"Не выбран" }}</strong>
+</p>
+
+<h3>Ваши устройства:</h3>
+<ul>
+  {% for device in devices %}
+  <li>{{ device.phone_number }} ({{ device.get_device_type_display }})</li>
+  {% empty %}
+  <li>Нет устройств</li>
+  {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'billing/base.html' %} {% block content %}
+<h2>Авторизация</h2>
+{% if error %}
+<div class="alert alert-error">{{ error }}</div>
+{% endif %}
+<form method="post">
+  {% csrf_token %}
+  <div class="form-group">
+    <label>Логин:</label>
+    <input type="text" name="username" required />
+  </div>
+  <div class="form-group">
+    <label>Пароль:</label>
+    <input type="password" name="password" required />
+  </div>
+  <button type="submit">Войти</button>
+</form>
+{% endblock %}

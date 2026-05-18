@@ -1,0 +1,26 @@
+{% extends 'billing/base.html' %} {% block content %}
+<h2>Пополнить баланс</h2>
+<p>Текущий баланс: <span class="balance">{{ balance }} руб</span></p>
+
+{% if success %}
+<div class="alert alert-success">{{ success }}</div>
+<p>Новый баланс: <strong>{{ new_balance }} руб</strong></p>
+{% endif %}
+
+<form method="post">
+  {% csrf_token %}
+  <div class="form-group">
+    <label>Сумма пополнения (руб):</label>
+    <input type="number" name="amount" min="1" step="0.01" required />
+  </div>
+  <div class="form-group">
+    <label>Способ оплаты:</label>
+    <select>
+      <option>Банковская карта</option>
+      <option>Электронные деньги</option>
+      <option>Наличные</option>
+    </select>
+  </div>
+  <button type="submit">Пополнить</button>
+</form>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'billing/base.html' %} {% block content %}
+<h2>Панель администратора</h2>
+
+<h3>Клиенты</h3>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Имя</th>
+      <th>Баланс</th>
+      <th>Тариф</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for client in clients %}
+    <tr>
+      <td>{{ client.id }}</td>
+      <td>{{ client.name }}</td>
+      <td>{{ client.balance }} руб</td>
+      <td>{{ client.tariff.name|default:"-" }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h3>Тарифы</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Название</th>
+      <th>Цена за минуту</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for tariff in tariffs %}
+    <tr>
+      <td>{{ tariff.name }}</td>
+      <td>{{ tariff.price_per_minute }} руб</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h3>Последние звонки</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Дата</th>
+      <th>С номера</th>
+      <th>На номер</th>
+      <th>Длительность</th>
+      <th>Стоимость</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for call in calls %}
+    <tr>
+      <td>{{ call.start_time|date:"d.m.Y H:i:s" }}</td>
+      <td>{{ call.from_device.phone_number }}</td>
+      <td>{{ call.to_device.phone_number }}</td>
+      <td>{{ call.duration_sec|divisibleby:60 }} мин</td>
+      <td>{{ call.cost }} руб</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

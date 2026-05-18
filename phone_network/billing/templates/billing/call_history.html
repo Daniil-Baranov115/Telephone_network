@@ -1,0 +1,29 @@
+{% extends 'billing/base.html' %} {% block content %}
+<h2>История звонков</h2>
+
+{% if calls %}
+<table>
+  <thead>
+    <tr>
+      <th>Дата и время</th>
+      <th>С номера</th>
+      <th>На номер</th>
+      <th>Длительность</th>
+      <th>Стоимость</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for call in calls %}
+    <tr>
+      <td>{{ call.start_time|date:"d.m.Y H:i:s" }}</td>
+      <td>{{ call.from_device.phone_number }}</td>
+      <td>{{ call.to_device.phone_number }}</td>
+      <td>{{ call.duration_sec|divisibleby:60 }} мин</td>
+      <td>{{ call.cost }} руб</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>Звонков пока нет</p>
+{% endif %} {% endblock %}

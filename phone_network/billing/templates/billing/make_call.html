@@ -1,0 +1,38 @@
+{% extends 'billing/base.html' %} {% block content %}
+<h2>Совершить звонок</h2>
+
+{% if success %}
+<div class="alert alert-success">{{ success }}</div>
+<p>Новый баланс: <strong>{{ new_balance }} руб</strong></p>
+{% endif %} {% if error %}
+<div class="alert alert-error">{{ error }}</div>
+{% endif %}
+
+<form method="post">
+  {% csrf_token %}
+  <div class="form-group">
+    <label>С вашего номера:</label>
+    <select name="from_device" required>
+      {% for device in devices %}
+      <option value="{{ device.id }}">
+        {{ device.phone_number }} ({{ device.get_device_type_display }})
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="form-group">
+    <label>Номер получателя:</label>
+    <input
+      type="text"
+      name="to_number"
+      placeholder="+7 (999) 123-45-67"
+      required
+    />
+  </div>
+  <div class="form-group">
+    <label>Длительность (минуты):</label>
+    <input type="number" name="duration" min="1" required />
+  </div>
+  <button type="submit">Позвонить</button>
+</form>
+{% endblock %}
