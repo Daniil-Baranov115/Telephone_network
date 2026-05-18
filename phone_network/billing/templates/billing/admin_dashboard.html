@@ -1,29 +1,64 @@
 {% extends 'billing/base.html' %} {% block content %}
-<h2>Панель администратора</h2>
+<h2><i class="fas fa-chart-line"></i> Статистика системы</h2>
+<div class="stats-grid">
+  <div class="stat-card">
+    <i class="fas fa-users"></i>
+    <div class="number">{{ total_clients }}</div>
+    <div class="label">Всего клиентов</div>
+  </div>
+  <div class="stat-card">
+    <i class="fas fa-mobile-alt"></i>
+    <div class="number">{{ total_devices }}</div>
+    <div class="label">Устройств</div>
+  </div>
+  <div class="stat-card">
+    <i class="fas fa-ruble-sign"></i>
+    <div class="number">{{ total_balance|floatformat:2 }}</div>
+    <div class="label">Общий баланс (руб)</div>
+  </div>
+  <div class="stat-card">
+    <i class="fas fa-phone"></i>
+    <div class="number">{{ total_calls }}</div>
+    <div class="label">Всего звонков</div>
+  </div>
+  <div class="stat-card">
+    <i class="fas fa-chart-line"></i>
+    <div class="number">{{ total_revenue|floatformat:2 }}</div>
+    <div class="label">Общая выручка (руб)</div>
+  </div>
+</div>
 
-<h3>Клиенты</h3>
+<h3 style="margin-top: 30px"><i class="fas fa-users"></i> Клиенты</h3>
 <table>
   <thead>
     <tr>
       <th>ID</th>
       <th>Имя</th>
+      <th>Логин</th>
       <th>Баланс</th>
       <th>Тариф</th>
+      <th>Устройств</th>
     </tr>
   </thead>
   <tbody>
     {% for client in clients %}
     <tr>
       <td>{{ client.id }}</td>
-      <td>{{ client.name }}</td>
-      <td>{{ client.balance }} руб</td>
+      <td><strong>{{ client.name }}</strong></td>
+      <td>{{ client.username }}</td>
+      <td
+        style="color: {% if client.balance < 10 %}#dc3545{% else %}#28a745{% endif %};"
+      >
+        {{ client.balance }} руб
+      </td>
       <td>{{ client.tariff.name|default:"-" }}</td>
+      <td>{{ client.devices.count }}</td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
 
-<h3>Тарифы</h3>
+<h3 style="margin-top: 30px"><i class="fas fa-tags"></i> Тарифные планы</h3>
 <table>
   <thead>
     <tr>
@@ -41,7 +76,9 @@
   </tbody>
 </table>
 
-<h3>Последние звонки</h3>
+<h3 style="margin-top: 30px">
+  <i class="fas fa-history"></i> Последние звонки ({{ calls|length }})
+</h3>
 <table>
   <thead>
     <tr>
@@ -59,7 +96,7 @@
       <td>{{ call.from_device.phone_number }}</td>
       <td>{{ call.to_device.phone_number }}</td>
       <td>{{ call.duration_sec|divisibleby:60 }} мин</td>
-      <td>{{ call.cost }} руб</td>
+      <td><strong>{{ call.cost }} руб</strong></td>
     </tr>
     {% endfor %}
   </tbody>

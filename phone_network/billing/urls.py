@@ -8,7 +8,8 @@ urlpatterns = [
     path('topup/', views.topup_balance, name='topup'),
     path('history/', views.call_history, name='history'),
     path('change_tariff/', views.change_tariff, name='change_tariff'),
-    path('admin/', views.admin_dashboard, name='admin_dashboard'),
+    path('admin-panel/', views.admin_dashboard,
+         name='admin_dashboard'),  
     path('logout/', views.logout_view, name='logout'),
     path('api/process_call/', views.api_process_call, name='api_process_call'),
 ]
